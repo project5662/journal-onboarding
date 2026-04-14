@@ -50,7 +50,13 @@ export default function Email() {
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await response.json();
+      let data;
+      try {
+        data = await response.json();
+      } catch {
+        setMessage("Unexpected server response.");
+        return;
+      }
 
       if (!response.ok) {
         setMessage(data?.msg || data?.message || "Something went wrong");
@@ -63,7 +69,11 @@ export default function Email() {
 
       if (mode === "signup") {
         const authUserId = data?.user?.id;
-        if (authUserId) setUserId(authUserId);
+        if (!authUserId) {
+          setMessage("Could not create account. Please try again.");
+          return;
+        }
+        setUserId(authUserId);
         if (token) setAccessToken(token);
         router.push("/name");
         return;
@@ -88,12 +98,12 @@ export default function Email() {
         }
       );
 
-      const profiles = await profileResponse.json();
-
       if (!profileResponse.ok) {
         setMessage("Could not load profile.");
         return;
       }
+
+      const profiles = await profileResponse.json();
 
       const profile = profiles?.[0];
 
