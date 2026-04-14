@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -80,7 +80,7 @@ export default function WowScreen() {
   } = useOnboarding();
 
   const [entry, setEntry] = useState("");
-  const [saving, setSaving] = useState(false);
+  const isSaving = useRef(false);
   const [savedProfile, setSavedProfile] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -88,13 +88,18 @@ export default function WowScreen() {
   const copy = getWowCopy(intent, name);
 
   const saveProfileIfNeeded = async () => {
-    if (saving || savedProfile) return;
+    if (isSaving.current || savedProfile) return;
 
-    setSaving(true);
+    if (!accessToken) {
+      setMessage("Session expired. Please log in again.");
+      return;
+    }
+
+    isSaving.current = true;
     setMessage("");
 
     try {
-      await fetch(`${supabaseUrl}/rest/v1/profiles`, {
+      const response = await fetch(`${supabaseUrl}/rest/v1/profiles`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -112,11 +117,16 @@ export default function WowScreen() {
         }),
       });
 
+      if (!response.ok) {
+        setMessage("Could not save profile.");
+        return;
+      }
+
       setSavedProfile(true);
     } catch (error) {
       setMessage("Network error.");
     } finally {
-      setSaving(false);
+      isSaving.current = false;
     }
   };
 
