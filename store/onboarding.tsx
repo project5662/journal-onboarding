@@ -3,6 +3,8 @@ import { createContext, ReactNode, useContext, useState } from "react";
 type OnboardingContextType = {
   userId: string;
   setUserId: (value: string) => void;
+  accessToken: string;
+  setAccessToken: (value: string) => void;
   email: string;
   setEmail: (value: string) => void;
   name: string;
@@ -17,6 +19,7 @@ const OnboardingContext = createContext<OnboardingContextType | undefined>(undef
 
 export function OnboardingProvider({ children }: { children: ReactNode }) {
   const [userId, setUserId] = useState("");
+  const [accessToken, setAccessToken] = useState("");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [intent, setIntent] = useState("");
@@ -27,6 +30,8 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
       value={{
         userId,
         setUserId,
+        accessToken,
+        setAccessToken,
         email,
         setEmail,
         name,
