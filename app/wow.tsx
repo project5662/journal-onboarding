@@ -67,6 +67,7 @@ export default function WowScreen() {
 
   const {
     userId,
+    accessToken,
     email,
     name,
     intent,
@@ -98,7 +99,7 @@ export default function WowScreen() {
         headers: {
           "Content-Type": "application/json",
           apikey: supabaseKey,
-          Authorization: `Bearer ${supabaseKey}`,
+          Authorization: `Bearer ${accessToken}`,
           Prefer: "resolution=merge-duplicates",
         },
         body: JSON.stringify({

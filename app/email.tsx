@@ -17,7 +17,7 @@ const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
 
 export default function Email() {
-  const { setEmail, setUserId, setName, setIntent, setFrequency } = useOnboarding();
+  const { setEmail, setUserId, setAccessToken, setName, setIntent, setFrequency } = useOnboarding();
   const router = useRouter();
 
   const [mode, setMode] = useState<"signup" | "signin">("signup");
@@ -59,27 +59,31 @@ export default function Email() {
 
       setEmail(email);
 
+      const token = data?.access_token;
+
       if (mode === "signup") {
         const authUserId = data?.user?.id;
         if (authUserId) setUserId(authUserId);
+        if (token) setAccessToken(token);
         router.push("/name");
         return;
       }
 
       const authUserId = data?.user?.id;
-      if (!authUserId) {
+      if (!authUserId || !token) {
         setMessage("Could not read user session.");
         return;
       }
 
       setUserId(authUserId);
+      setAccessToken(token);
 
       const profileResponse = await fetch(
         `${supabaseUrl}/rest/v1/profiles?id=eq.${authUserId}&select=*`,
         {
           headers: {
             apikey: supabaseKey,
-            Authorization: `Bearer ${supabaseKey}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
