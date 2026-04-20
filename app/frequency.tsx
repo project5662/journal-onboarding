@@ -8,7 +8,7 @@ export default function FrequencyScreen() {
 
   const handleSelect = (value: string) => {
     setFrequency(value);
-    router.push("/wow");
+    router.push("/reflection" as any);
   };
 
   return (
