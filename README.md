@@ -9,6 +9,14 @@ The application is connected to Supabase for handling user data and backend comm
 
 ---
 
+### Screens
+
+| Sign up | Name | Frequency | Reflection |
+|--------|------|-----------|------------|
+| ![Email](assets/screenshots/email.png) | ![Name](assets/screenshots/name.png) | ![Frequency](assets/screenshots/frequency.png) | ![Reflection](assets/screenshots/reflection.png) |
+
+---
+
 ### Features
 
 * Multi-step onboarding flow
