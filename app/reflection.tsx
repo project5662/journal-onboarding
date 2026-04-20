@@ -80,6 +80,7 @@ export default function WowScreen() {
   } = useOnboarding();
 
   const [entry, setEntry] = useState("");
+  // useRef instead of useState to prevent race condition on rapid keystrokes
   const isSaving = useRef(false);
   const [savedProfile, setSavedProfile] = useState(false);
   const [message, setMessage] = useState("");

@@ -111,7 +111,7 @@ export default function Email() {
         setName(profile.name || "");
         setIntent(profile.intent || "");
         setFrequency(profile.frequency || "");
-        router.replace("/(tabs)/logedin" as any);
+        router.replace("/(tabs)/home" as any);
       } else {
         router.push("/name");
       }

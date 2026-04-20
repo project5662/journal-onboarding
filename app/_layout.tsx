@@ -19,7 +19,7 @@ export default function RootLayout() {
           <Stack.Screen name="intent" />
           <Stack.Screen name="journal" />
           <Stack.Screen name="frequency" />
-          <Stack.Screen name="wow" />
+          <Stack.Screen name="reflection" />
           <Stack.Screen name="(tabs)" />
           <Stack.Screen name="modal" options={{ presentation: "modal" }} />
         </Stack>
